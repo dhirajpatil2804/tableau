@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tableau Beginner Academy</title>
+<style>
+:root{
+  --blue:#2f75b5; --blue2:#1f5f95; --ink:#17212b; --muted:#66727f;
+  --bg:#f5f7fa; --card:#fff; --line:#dfe5eb; --green:#2f9e72;
+  --orange:#f0a34a; --red:#d95c5c; --purple:#7950c8; --shadow:0 12px 32px rgba(22,34,48,.08);
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
+button,input{font:inherit}
+.top{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{max-width:1250px;margin:auto;height:68px;display:flex;align-items:center;gap:22px;padding:0 22px}
+.brand{font-weight:800;font-size:20px;color:var(--blue);white-space:nowrap}.brand span{color:#222}
+.navlinks{display:flex;gap:6px;overflow:auto}.navlinks button{border:0;background:transparent;padding:9px 11px;color:#596674;border-radius:8px;cursor:pointer;white-space:nowrap}.navlinks button:hover{background:#eef5fb;color:var(--blue)}
+.progress{height:3px;background:#e8edf2}.progress i{display:block;height:100%;width:0;background:var(--blue);transition:.3s}
+.hero{background:linear-gradient(135deg,#173d61,#2f75b5 58%,#5b9ed0);color:white;padding:72px 22px 76px}
+.hero-inner{max-width:1250px;margin:auto;display:grid;grid-template-columns:1.15fr .85fr;gap:45px;align-items:center}
+.badge{display:inline-flex;padding:6px 11px;border:1px solid rgba(255,255,255,.3);border-radius:999px;background:rgba(255,255,255,.1);font-size:13px}
+h1{font-size:clamp(38px,5vw,65px);line-height:1.03;margin:17px 0}.hero p{font-size:19px;max-width:700px;color:#eaf4fc}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:25px}.btn{border:0;border-radius:10px;padding:12px 17px;font-weight:700;cursor:pointer}.primary{background:white;color:var(--blue)}.ghost{background:rgba(255,255,255,.12);color:white;border:1px solid rgba(255,255,255,.3)}
+.hero-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);padding:22px;border-radius:18px;box-shadow:0 20px 50px rgba(0,0,0,.12)}
+.fake-workbook{background:#fff;color:#26313c;border-radius:12px;overflow:hidden}
+.fake-top{height:30px;background:#eef2f5;border-bottom:1px solid #d8dfe5}.fake-body{display:grid;grid-template-columns:110px 1fr;min-height:230px}.fake-pane{background:#f7f9fb;border-right:1px solid #dfe4e9;padding:10px}.fake-pane b{display:block;font-size:10px;color:#2f75b5;margin-bottom:9px}.pill{font-size:10px;background:#e8f1f8;padding:4px 6px;border-radius:4px;margin:4px 0}.viz{padding:16px;position:relative}.shelf{height:19px;background:#edf3f8;border-radius:4px;margin-bottom:10px}.bars{display:flex;align-items:end;height:145px;gap:9px;padding:10px 8px;border-bottom:1px solid #bbb}.bar{width:24px;background:#4b8fc5;border-radius:3px 3px 0 0}.axis{font-size:8px;color:#777;display:flex;justify-content:space-around;margin-top:5px}
+.wrap{max-width:1250px;margin:auto;padding:42px 22px}.section-head{margin-bottom:25px}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.13em;color:var(--blue);text-transform:uppercase}.section-head h2{font-size:34px;margin:5px 0}.section-head p{color:var(--muted);max-width:760px}
+.path{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:20px 0 8px}.step{background:white;border:1px solid var(--line);padding:15px;border-radius:12px;cursor:pointer}.step.active{border-color:var(--blue);box-shadow:0 0 0 2px #dcecf8}.num{font-size:12px;color:var(--blue);font-weight:800}.step b{display:block;margin-top:5px}
+.lesson{scroll-margin-top:90px;padding-top:35px}.lesson-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}.card{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow);padding:25px}.card h3{margin-top:0}.tip{border-left:4px solid var(--blue);background:#eef6fc;padding:13px 16px;border-radius:8px;margin:16px 0}.warning{border-left-color:var(--orange);background:#fff6e8}.success{border-left-color:var(--green);background:#edf9f4}
+.kicker{font-size:13px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:.08em}
+.vizbox{background:#fbfcfd;border:1px solid var(--line);border-radius:12px;padding:18px;min-height:280px}
+.chart-title{font-weight:800;margin-bottom:15px}.bar-chart{height:190px;display:flex;align-items:end;gap:16px;border-bottom:1px solid #bbc4cc;padding:0 12px}.vbar{width:45px;background:#4b8fc5;border-radius:5px 5px 0 0;position:relative}.vbar span{position:absolute;top:-23px;width:100%;text-align:center;font-size:11px}.labels{display:flex;gap:16px;padding:6px 12px}.labels span{width:45px;text-align:center;font-size:11px;color:#6b7680}
+.linechart{height:210px;position:relative;border-left:1px solid #bbb;border-bottom:1px solid #bbb}.linechart svg{width:100%;height:100%}.scatter{height:210px;position:relative;border-left:1px solid #bbb;border-bottom:1px solid #bbb}.dot{position:absolute;width:11px;height:11px;border-radius:50%;background:#2f75b5}.dot:nth-child(2n){background:#e58d43}.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{padding:9px;border-bottom:1px solid #e5e9ed;text-align:left}.table th{background:#f1f5f8}
+.flow{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin:18px 0}.flow .box{background:#fff;border:1px solid var(--line);padding:13px 18px;border-radius:10px;font-weight:700}.arrow{color:var(--blue);font-weight:900}
+.ui-demo{background:#f2f4f6;border:1px solid #d6dce1;border-radius:12px;overflow:hidden}.ui-head{background:#fff;padding:8px 12px;border-bottom:1px solid #d8dde2;font-size:12px;font-weight:700}.ui-grid{display:grid;grid-template-columns:155px 1fr 165px;min-height:300px}.data-pane{background:#fff;border-right:1px solid #d8dde2;padding:13px}.data-pane h5{margin:4px 0 8px;color:#6b7480}.field{font-size:12px;padding:6px 8px;border-radius:5px;margin:4px 0;background:#f3f7fa}.field.dim{border-left:4px solid #6aa0ca}.field.mea{border-left:4px solid #54a875}.workspace{padding:14px;background:#f8fafb}.shelf2{background:#e9eef2;border:1px dashed #b7c1ca;border-radius:5px;padding:7px;margin-bottom:9px;font-size:11px;color:#697580}.markdemo{background:#fff;height:190px;border:1px solid #d9dfe4;border-radius:6px;display:flex;align-items:end;justify-content:space-around;padding:20px}.markbar{width:34px;background:#4b8fc5;border-radius:4px 4px 0 0}.marks{background:#fff;border-left:1px solid #d8dde2;padding:13px}.marks h5{margin:0 0 10px}.drop{border:1px dashed #b8c0c8;border-radius:6px;padding:8px;margin:7px 0;font-size:11px;color:#68737d}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:14px}.compare>div{border:1px solid var(--line);border-radius:12px;padding:14px}.wrong{background:#fff7f7}.right{background:#f3fbf7}
+.code{background:#16202a;color:#dce8f2;border-radius:10px;padding:16px;overflow:auto;font:13px Consolas,monospace;white-space:pre-wrap}.kw{color:#8fc7ff}.str{color:#b9e69a}
+.quiz{background:#173d61;color:white;border-radius:16px;padding:25px}.quiz button{background:white;color:#173d61;border:0;padding:10px 14px;border-radius:8px;margin:5px;cursor:pointer}.quiz .answer{margin-top:10px;font-weight:700;min-height:25px}
+.lesson-nav{display:flex;justify-content:space-between;gap:12px;margin-top:20px}.lesson-nav button{background:white;border:1px solid var(--line);padding:10px 14px;border-radius:9px;cursor:pointer}.lesson-nav button:hover{border-color:var(--blue)}
+.search{display:flex;gap:10px;margin:15px 0}.search input{flex:1;border:1px solid var(--line);padding:12px;border-radius:9px;background:#fff}
+footer{background:#16212b;color:#cdd7df;margin-top:50px;padding:45px 22px}.foot{max-width:1250px;margin:auto;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+@media(max-width:900px){.hero-inner,.lesson-grid{grid-template-columns:1fr}.path{grid-template-columns:repeat(3,1fr)}.ui-grid{grid-template-columns:120px 1fr}.marks{display:none}}
+@media(max-width:620px){.navlinks{display:none}.path{grid-template-columns:1fr 1fr}.compare{grid-template-columns:1fr}.hero{padding-top:45px}.wrap{padding:30px 15px}.ui-grid{grid-template-columns:95px 1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="nav">
+    <div class="brand">Tableau <span>Beginner Academy</span></div>
+    <div class="navlinks">
+      <button onclick="go('start')">Start</button><button onclick="go('data')">Data</button>
+      <button onclick="go('workspace')">Workspace</button><button onclick="go('charts')">Charts</button>
+      <button onclick="go('analysis')">Analysis</button><button onclick="go('dashboards')">Dashboards</button>
+      <button onclick="go('calculations')">Calculations</button><button onclick="go('practice')">Practice</button>
+    </div>
+  </div>
+  <div class="progress"><i id="progress"></i></div>
+</header>
+
+<section class="hero" id="start">
+<div class="hero-inner">
+<div>
+  <span class="badge">BEGINNER → CONFIDENT TABLEAU USER</span>
+  <h1>Learn Tableau by seeing how it thinks.</h1>
+  <p>A visual, step-by-step course for someone opening Tableau for the first time. Learn the idea, see the change, understand why it works, then try it yourself.</p>
+  <div class="hero-actions"><button class="btn primary" onclick="go('lesson1')">Start Lesson 1</button><button class="btn ghost" onclick="go('path')">See learning path</button></div>
+</div>
+<div class="hero-card">
+  <div class="fake-workbook">
+    <div class="fake-top"></div>
+    <div class="fake-body"><div class="fake-pane"><b>DATA</b><div class="pill">Dimensions</div><div class="pill">Category</div><div class="pill">Region</div><div class="pill">Order Date</div><div class="pill">Measures</div><div class="pill">Sales</div><div class="pill">Profit</div></div>
+    <div class="viz"><div class="shelf"></div><div class="bars"><div class="bar" style="height:45%"></div><div class="bar" style="height:70%"></div><div class="bar" style="height:55%"></div><div class="bar" style="height:90%"></div><div class="bar" style="height:62%"></div></div><div class="axis"><span>Furniture</span><span>Office</span><span>Tech</span><span>Other</span></div></div></div>
+  </div>
+</div>
+</div>
+</section>
+
+<main>
+<section class="wrap" id="path">
+<div class="section-head"><div class="eyebrow">Your learning path</div><h2>From zero to your first dashboard</h2><p>Don't memorize Tableau features. Build understanding in the order you actually need it.</p></div>
+<div class="path">
+<div class="step active" onclick="go('lesson1')"><div class="num">01</div><b>What is Tableau?</b><small>Think visually</small></div>
+<div class="step" onclick="go('data')"><div class="num">02</div><b>Your data</b><small>Connect & understand</small></div>
+<div class="step" onclick="go('workspace')"><div class="num">03</div><b>Workspace</b><small>Where things go</small></div>
+<div class="step" onclick="go('charts')"><div class="num">04</div><b>Build charts</b><small>Ask questions</small></div>
+<div class="step" onclick="go('analysis')"><div class="num">05</div><b>Analyze</b><small>Filters & insight</small></div>
+<div class="step" onclick="go('dashboards')"><div class="num">06</div><b>Dashboard</b><small>Tell the story</small></div>
+</div>
+</section>
+
+<section class="wrap lesson" id="lesson1">
+<div class="section-head"><div class="eyebrow">Lesson 01 · Foundation</div><h2>What is Tableau?</h2><p>Tableau is a visual analytics tool: instead of reading thousands of rows, you turn data into interactive views so patterns and questions become easier to see.</p></div>
+<div class="lesson-grid">
+<div class="card"><h3>Start with a question</h3>
+<p>Good Tableau work begins with a question, not a chart.</p>
+<div class="tip"><b>Question:</b> Which product category generates the most sales?</div>
+<div class="flow"><div class="box">Raw rows</div><div class="arrow">→</div><div class="box">Visual view</div><div class="arrow">→</div><div class="box">Insight</div></div>
+<p><b>Mindset:</b> every field you place into the view changes the question you are asking of the data.</p></div>
+<div class="card"><h3>What you will build</h3>
+<div class="vizbox"><div class="chart-title">Sales by Category</div><div class="bar-chart"><div class="vbar" style="height:58%"><span>542K</span></div><div class="vbar" style="height:82%"><span>836K</span></div><div class="vbar" style="height:68%"><span>734K</span></div></div><div class="labels"><span>Furniture</span><span>Office</span><span>Technology</span></div></div>
+<p class="tip success"><b>Remember:</b> Tableau is not “making pretty charts.” It is helping you ask and answer questions visually.</p></div>
+</div>
+<div class="lesson-nav"><button onclick="go('data')">Next → Connect to data</button></div>
+</section>
+
+<section class="wrap lesson" id="data">
+<div class="section-head"><div class="eyebrow">Lesson 02 · Data</div><h2>Understand your data before you visualize it</h2><p>A Tableau workbook starts with a data source. Learn what a row, field, dimension, measure, date and geography mean before dragging everything everywhere.</p></div>
+<div class="lesson-grid">
+<div class="card"><h3>Dimensions vs Measures</h3>
+<div class="compare"><div class="right"><b>Dimensions</b><p>Describe or slice the data.</p><ul><li>Category</li><li>Region</li><li>Customer Name</li><li>Order Date</li></ul></div><div class="right"><b>Measures</b><p>Usually represent quantities you can aggregate.</p><ul><li>Sales</li><li>Profit</li><li>Quantity</li><li>Discount</li></ul></div></div>
+<p class="tip"><b>Simple rule:</b> “What kind of thing?” → dimension. “How much/how many?” → measure.</p></div>
+<div class="card"><h3>See the data as rows</h3><table class="table"><tr><th>Category</th><th>Region</th><th>Sales</th><th>Profit</th></tr><tr><td>Furniture</td><td>West</td><td>1,240</td><td>210</td></tr><tr><td>Technology</td><td>East</td><td>3,180</td><td>820</td></tr><tr><td>Office Supplies</td><td>South</td><td>980</td><td>140</td></tr></table>
+<p>Tableau turns these fields into visual marks. A view can summarize many source rows into fewer marks.</p></div>
+</div>
+<div class="card" style="margin-top:24px"><h3>Live connection or extract?</h3><p>Tableau can work with live data connections or in-memory extracts. As a beginner, first understand the analysis workflow; performance and refresh choices come later.</p><div class="flow"><div class="box">Data source</div><div class="arrow">→</div><div class="box">Tableau data model</div><div class="arrow">→</div><div class="box">Worksheet</div></div></div>
+<div class="lesson-nav"><button onclick="go('lesson1')">← Previous</button><button onclick="go('workspace')">Next → Workspace</button></div>
+</section>
+
+<section class="wrap lesson" id="workspace">
+<div class="section-head"><div class="eyebrow">Lesson 03 · Workspace</div><h2>Learn the Tableau workspace visually</h2><p>The interface looks busy at first. It becomes simple when you know the job of each area.</p></div>
+<div class="ui-demo">
+<div class="ui-head">Workbook: Sales Analysis · Sheet 1</div>
+<div class="ui-grid">
+<div class="data-pane"><h5>DATA</h5><div class="field dim">▾ Dimensions</div><div class="field dim">Category</div><div class="field dim">Region</div><div class="field dim">Order Date</div><div class="field mea">▾ Measures</div><div class="field mea">Sales</div><div class="field mea">Profit</div></div>
+<div class="workspace"><div class="shelf2">COLUMNS · <b>Category</b></div><div class="shelf2">ROWS · <b>SUM(Sales)</b></div><div class="markdemo"><div class="markbar" style="height:45%"></div><div class="markbar" style="height:72%"></div><div class="markbar" style="height:58%"></div></div></div>
+<div class="marks"><h5>MARKS</h5><div class="drop">Color</div><div class="drop">Size</div><div class="drop">Label</div><div class="drop">Detail</div><div class="drop">Tooltip</div></div>
+</div></div>
+<div class="lesson-grid" style="margin-top:24px">
+<div class="card"><h3>Rows & Columns</h3><p>These shelves structure the view. Put a dimension there to create headers; put a measure there to create an axis.</p><div class="tip"><b>Try:</b> Category → Columns, Sales → Rows. You just made a bar chart.</div></div>
+<div class="card"><h3>Marks card</h3><p>The Marks card controls how marks look and what information they carry: color, size, shape, text/label, detail and tooltip.</p><div class="tip"><b>Try:</b> Region → Color. Now the bars are encoded by region.</div></div>
+</div>
+<div class="card" style="margin-top:24px"><h3>Show Me is your beginner safety net</h3><p>Select fields and use Show Me to see chart types that fit those fields. But don't blindly accept the chart—ask whether it answers your question.</p></div>
+<div class="lesson-nav"><button onclick="go('data')">← Previous</button><button onclick="go('charts')">Next → Build charts</button></div>
+</section>
+
+<section class="wrap lesson" id="charts">
+<div class="section-head"><div class="eyebrow">Lesson 04 · Visualization</div><h2>Build your first charts</h2><p>Learn charts by asking what relationship you want to show. Start with a few essential views instead of memorizing dozens.</p></div>
+<div class="lesson-grid">
+<div class="card"><h3>1. Bar chart — compare categories</h3><div class="vizbox"><div class="chart-title">Sales by Category</div><div class="bar-chart"><div class="vbar" style="height:52%"><span>520</span></div><div class="vbar" style="height:85%"><span>850</span></div><div class="vbar" style="height:68%"><span>680</span></div></div><div class="labels"><span>Furniture</span><span>Office</span><span>Tech</span></div></div><p><b>Use when:</b> comparing values across categories.</p><div class="tip"><b>Recipe:</b> Category → Columns + Sales → Rows.</div></div>
+<div class="card"><h3>2. Line chart — see change over time</h3><div class="vizbox"><div class="chart-title">Monthly Sales</div><div class="linechart"><svg viewBox="0 0 500 190" preserveAspectRatio="none"><polyline points="10,155 70,145 130,152 190,120 250,126 310,91 370,105 430,53 490,70" fill="none" stroke="#2f75b5" stroke-width="5"/></svg></div></div><p><b>Use when:</b> the question is about trend, movement or time.</p><div class="tip"><b>Recipe:</b> Order Date → Columns + Sales → Rows.</div></div>
+<div class="card"><h3>3. Scatter plot — see relationships</h3><div class="vizbox"><div class="chart-title">Sales vs Profit</div><div class="scatter"><i class="dot" style="left:18%;bottom:25%"></i><i class="dot" style="left:28%;bottom:42%"></i><i class="dot" style="left:38%;bottom:35%"></i><i class="dot" style="left:50%;bottom:58%"></i><i class="dot" style="left:58%;bottom:50%"></i><i class="dot" style="left:72%;bottom:73%"></i><i class="dot" style="left:83%;bottom:78%"></i></div></div><p><b>Use when:</b> comparing two quantitative measures and looking for a relationship.</p></div>
+<div class="card"><h3>4. Text table — exact numbers</h3><div class="vizbox"><table class="table"><tr><th>Category</th><th>Sales</th><th>Profit</th></tr><tr><td>Furniture</td><td>520K</td><td>61K</td></tr><tr><td>Office</td><td>850K</td><td>110K</td></tr><tr><td>Technology</td><td>680K</td><td>145K</td></tr></table></div><p><b>Use when:</b> people need precise values rather than a visual comparison.</p></div>
+</div>
+<div class="card" style="margin-top:24px"><h3>More useful chart types to learn next</h3><div class="flow"><div class="box">Histogram</div><div class="box">Box Plot</div><div class="box">Treemap</div><div class="box">Heatmap</div><div class="box">Maps</div><div class="box">Gantt</div><div class="box">Bullet</div></div></div>
+<div class="lesson-nav"><button onclick="go('workspace')">← Previous</button><button onclick="go('analysis')">Next → Analyze the view</button></div>
+</section>
+
+<section class="wrap lesson" id="analysis">
+<div class="section-head"><div class="eyebrow">Lesson 05 · Analysis</div><h2>Turn a chart into an analysis</h2><p>A chart is the beginning. Filters, sorting, highlighting, hierarchies and analytics help you investigate what is happening.</p></div>
+<div class="lesson-grid">
+<div class="card"><h3>Filters: ask a narrower question</h3><div class="compare"><div><b>All regions</b><p>Sales across every region.</p><div class="vizbox" style="min-height:160px"><div class="bar-chart" style="height:120px"><div class="vbar" style="height:50%"></div><div class="vbar" style="height:80%"></div><div class="vbar" style="height:65%"></div><div class="vbar" style="height:42%"></div></div></div></div><div class="right"><b>West only</b><p>Same question, narrower context.</p><div class="tip">Region → Filters → West</div></div></div></div>
+<div class="card"><h3>Sort & highlight</h3><p>Sort to make ranking obvious. Highlight to direct attention without removing context.</p><div class="tip success"><b>Good analysis:</b> keep enough context for the viewer to understand what the highlighted value is being compared against.</div></div>
+<div class="card"><h3>Analytics pane</h3><p>Add reference lines, trend lines and other analytical elements when they help explain the pattern—not simply because they are available.</p><div class="flow"><div class="box">View</div><div class="arrow">+</div><div class="box">Reference / Trend</div><div class="arrow">=</div><div class="box">Context</div></div></div>
+<div class="card"><h3>Hierarchies & drill-down</h3><p>Organize related fields so users can move from a high-level view into detail, such as <b>Year → Quarter → Month → Day</b>.</p><div class="flow"><div class="box">2026</div><div class="arrow">→</div><div class="box">Q3</div><div class="arrow">→</div><div class="box">September</div></div></div>
+</div>
+<div class="lesson-nav"><button onclick="go('charts')">← Previous</button><button onclick="go('dashboards')">Next → Build a dashboard</button></div>
+</section>
+
+<section class="wrap lesson" id="dashboards">
+<div class="section-head"><div class="eyebrow">Lesson 06 · Dashboards</div><h2>Combine views into a useful dashboard</h2><p>A worksheet answers a focused question. A dashboard combines worksheets and adds interaction so someone can explore the analysis.</p></div>
+<div class="card">
+<div class="ui-demo"><div class="ui-head">Executive Sales Dashboard</div>
+<div style="padding:15px;background:#f7f9fb"><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px"><div class="card" style="padding:15px;box-shadow:none"><small>Total Sales</small><h2 style="margin:0;color:#2f75b5">2.05M</h2></div><div class="card" style="padding:15px;box-shadow:none"><small>Total Profit</small><h2 style="margin:0;color:#2f9e72">316K</h2></div><div class="card" style="padding:15px;box-shadow:none"><small>Orders</small><h2 style="margin:0;color:#7950c8">9,420</h2></div></div>
+<div style="display:grid;grid-template-columns:1.3fr .7fr;gap:10px"><div class="card" style="height:190px;box-shadow:none"><b>Sales Trend</b><div class="linechart" style="margin-top:12px;height:130px"><svg viewBox="0 0 500 120" preserveAspectRatio="none"><polyline points="5,95 70,86 135,91 200,65 265,73 330,42 395,50 490,20" fill="none" stroke="#2f75b5" stroke-width="5"/></svg></div></div><div class="card" style="height:190px;box-shadow:none"><b>Sales by Category</b><div style="margin-top:12px"><div class="field">Technology █████████</div><div class="field">Office ███████</div><div class="field">Furniture █████</div></div></div></div></div></div></div>
+<div class="lesson-grid" style="margin-top:24px">
+<div class="card"><h3>Dashboard thinking</h3><ol><li>Choose the business question.</li><li>Create focused worksheets.</li><li>Arrange them with hierarchy.</li><li>Add only useful filters/actions.</li><li>Test it like a viewer.</li></ol></div>
+<div class="card"><h3>Interactivity</h3><p>Learn these after basic dashboards:</p><div class="flow"><div class="box">Filter action</div><div class="box">Highlight action</div><div class="box">Parameter action</div><div class="box">Navigation</div></div></div>
+</div>
+<div class="lesson-nav"><button onclick="go('analysis')">← Previous</button><button onclick="go('calculations')">Next → Calculations</button></div>
+</section>
+
+<section class="wrap lesson" id="calculations">
+<div class="section-head"><div class="eyebrow">Lesson 07 · Calculations</div><h2>Teach Tableau new logic</h2><p>Calculated fields let you create new information from existing data. Learn basic calculations first, then table calculations and LOD expressions.</p></div>
+<div class="lesson-grid">
+<div class="card"><h3>Basic calculated field</h3><p>Suppose your data has Sales and Profit, but you need Cost.</p><div class="code"><span class="kw">[Sales]</span> - <span class="kw">[Profit]</span></div><p>Or classify records:</p><div class="code"><span class="kw">IF</span> <span class="kw">SUM([Profit])</span> &gt; 0
+<span class="kw">THEN</span> <span class="str">"Profitable"</span>
+<span class="kw">ELSE</span> <span class="str">"Nonprofitable"</span>
+<span class="kw">END</span></div></div>
+<div class="card"><h3>Three calculation families</h3><div class="flow"><div class="box">Basic expressions</div><div class="arrow">→</div><div class="box">LOD expressions</div><div class="arrow">→</div><div class="box">Table calculations</div></div><p><b>Basic:</b> transform or aggregate data.</p><p><b>LOD:</b> control the granularity of a calculation.</p><p><b>Table calculation:</b> transform values based on the current visualization.</p></div>
+</div>
+<div class="card" style="margin-top:24px"><h3>LOD: FIXED in plain English</h3><p>Imagine your view changes, but you want a calculation to stay at a particular level of detail.</p><div class="code">{ FIXED [Customer Name] : SUM([Sales]) }</div><div class="tip">Read it as: “For each customer, calculate total sales at the customer level.”</div></div>
+<div class="card" style="margin-top:24px"><h3>Table calculation: think “after the view exists”</h3><p>For example, a running total or moving average uses values already present in the visualization.</p><div class="flow"><div class="box">Sales by month</div><div class="arrow">→</div><div class="box">Running Total</div><div class="arrow">→</div><div class="box">Cumulative trend</div></div></div>
+<div class="lesson-nav"><button onclick="go('dashboards')">← Previous</button><button onclick="go('practice')">Next → Practice</button></div>
+</section>
+
+<section class="wrap lesson" id="practice">
+<div class="section-head"><div class="eyebrow">Practice · Check yourself</div><h2>Can you think like Tableau?</h2><p>Don't worry about memorizing. Choose the answer that best matches the question.</p></div>
+<div class="quiz" id="quiz">
+<h3 id="q">Question 1 of 5</h3><p id="qt">You want to compare Sales across Category. Which starting view is most natural?</p>
+<div id="opts">
+<button onclick="answer(0)">Line chart</button><button onclick="answer(1)">Bar chart</button><button onclick="answer(2)">Scatter plot</button><button onclick="answer(3)">Map</button>
+</div><div class="answer" id="ans"></div>
+</div>
+<div class="lesson-grid" style="margin-top:24px">
+<div class="card"><h3>Mini project: Sales Dashboard</h3><p>Use a sample sales dataset and build:</p><ol><li>KPI: Total Sales</li><li>Bar: Sales by Category</li><li>Line: Sales over time</li><li>Map: Sales by location</li><li>Filter: Region</li><li>Dashboard: combine the views</li></ol></div>
+<div class="card"><h3>Beginner checklist</h3><p>Before calling yourself “comfortable,” make sure you can:</p><ul><li>Connect a dataset</li><li>Identify dimensions and measures</li><li>Build bar and line charts</li><li>Use Rows, Columns and Marks</li><li>Filter and sort</li><li>Create a calculated field</li><li>Build a dashboard</li></ul></div>
+</div>
+</section>
+
+<section class="wrap">
+<div class="section-head"><div class="eyebrow">Quick reference</div><h2>What to learn after the basics</h2></div>
+<div class="search"><input id="search" placeholder="Search topics: parameter, set, map, LOD, filter..." oninput="filterCards()"></div>
+<div id="refgrid" class="lesson-grid">
+<div class="card ref"><h3>Parameters</h3><p>User-controlled values that can drive calculations, filters, reference lines and actions.</p></div>
+<div class="card ref"><h3>Sets</h3><p>Custom subsets of data that can be used for comparison and analysis.</p></div>
+<div class="card ref"><h3>Groups</h3><p>Combine related members into meaningful categories.</p></div>
+<div class="card ref"><h3>Bins</h3><p>Create ranges of values for distributions such as histograms.</p></div>
+<div class="card ref"><h3>Maps</h3><p>Use geographic fields to explore location-based patterns.</p></div>
+<div class="card ref"><h3>Storytelling</h3><p>Sequence views to guide an audience through a data story.</p></div>
+</div>
+</section>
+</main>
+
+<footer><div class="foot"><div><b>Tableau Beginner Academy</b><br><span>Learn by understanding, seeing and doing.</span></div><div>Designed as a self-learning companion for new Tableau users.</div></div></footer>
+
+<script>
+const sections=['lesson1','data','workspace','charts','analysis','dashboards','calculations','practice'];
+function go(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth',block:'start'})}
+window.addEventListener('scroll',()=>{
+ const y=scrollY+140; let idx=0;
+ sections.forEach((id,i)=>{const el=document.getElementById(id); if(el && el.offsetTop<=y) idx=i});
+ document.getElementById('progress').style.width=((idx+1)/sections.length*100)+'%';
+});
+const qs=[
+ ['You want to compare Sales across Category. Which starting view is most natural?',['Line chart','Bar chart','Scatter plot','Map'],1,'Correct — bars make category comparison easy.'],
+ ['You want to see Sales changing month by month. Which chart is a natural starting point?',['Treemap','Line chart','Pie chart','Text table'],1,'Correct — time trends are commonly shown with a line.'],
+ ['Where do you control Color, Size, Label and Detail?',['Rows shelf','Columns shelf','Marks card','Data source'],2,'Correct — those visual encodings live on the Marks card.'],
+ ['You need Total Sales per Customer regardless of what other dimensions are in the view. What concept should you investigate?',['LOD expression','Dashboard action','Bin','Tooltip'],0,'Correct — LOD expressions let you control calculation granularity.'],
+ ['You have three worksheets and want one interactive analytical page. What do you create?',['Parameter','Dashboard','Set','Hierarchy'],1,'Correct — a dashboard combines worksheets into an interactive view.']
+];
+let qi=0;
+function answer(n){
+ const a=document.getElementById('ans');
+ if(n===qs[qi][2]){a.textContent=qs[qi][3]; a.style.color='#b9f3d6'; setTimeout(()=>{qi++; if(qi<qs.length) renderQ(); else {document.getElementById('q').textContent='Complete!';document.getElementById('qt').textContent='You finished the beginner checkpoint. Now build the mini project.';document.getElementById('opts').innerHTML='';a.textContent='🎉 Great job — start building in Tableau!';}},700)}
+ else {a.textContent='Not quite. Think about the question the chart needs to answer.';a.style.color='#ffd1d1'}
+}
+function renderQ(){document.getElementById('q').textContent='Question '+(qi+1)+' of '+qs.length;document.getElementById('qt').textContent=qs[qi][0];document.getElementById('opts').innerHTML=qs[qi][1].map((x,i)=>`<button onclick="answer(${i})">${x}</button>`).join('');document.getElementById('ans').textContent=''}
+function filterCards(){const q=document.getElementById('search').value.toLowerCase();document.querySelectorAll('.ref').forEach(c=>c.style.display=c.textContent.toLowerCase().includes(q)?'block':'none')}
+renderQ();
+</script>
+</body>
+</html>
